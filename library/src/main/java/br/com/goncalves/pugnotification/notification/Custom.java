@@ -14,7 +14,7 @@ import br.com.goncalves.pugnotification.interfaces.OnImageLoadingCompleted;
 
 @TargetApi(android.os.Build.VERSION_CODES.JELLY_BEAN)
 public class Custom extends Builder implements OnImageLoadingCompleted {
-    private static final String TAG = Custom.class.getSimpleName();
+
     private RemoteViews mRemoteView;
     private String mTitle;
     private String mMessage;
@@ -24,10 +24,19 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
     private int mBackgroundResId;
     private int mPlaceHolderResourceId;
     private ImageLoader mImageLoader;
+    private final boolean mUseSpanForCustomNotification;
 
-
-    public Custom(NotificationCompat.Builder builder, int identifier, String title, String message, Spanned messageSpanned, int smallIcon, String tag) {
+    public Custom(NotificationCompat.Builder builder,
+                  int identifier,
+                  String title,
+                  String message,
+                  Spanned messageSpanned,
+                  int smallIcon,
+                  String tag,
+                  boolean useSpanForCustomNotification
+    ) {
         super(builder, identifier, tag);
+        this.mUseSpanForCustomNotification = useSpanForCustomNotification;
         this.mRemoteView = new RemoteViews(PugNotification.singleton.context.getPackageName(), R.layout.pugnotification_custom);
         this.mTitle = title;
         this.mMessage = message;
@@ -49,7 +58,8 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
 
     private void setMessage() {
         if (mMessageSpanned != null) {
-            mRemoteView.setTextViewText(R.id.notification_text_message, mMessageSpanned);
+            CharSequence message = mUseSpanForCustomNotification ? this.mMessageSpanned : this.mMessageSpanned.toString();
+            mRemoteView.setTextViewText(R.id.notification_text_message, message);
         } else {
             mRemoteView.setTextViewText(R.id.notification_text_message, mMessage);
         }
@@ -63,21 +73,25 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
     }
 
     public Custom background(@DrawableRes int resource) {
-        if (resource <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (resource == 0) {
+            throw new IllegalArgumentException("Resource ID Should Not Be Zero!");
         }
 
         if (mUri != null) {
-            throw new IllegalStateException("Background Already Set!");
+            throwBackgroundAlreadySetException();
         }
 
         this.mBackgroundResId = resource;
         return this;
     }
 
+    private void throwBackgroundAlreadySetException() {
+        throw new IllegalStateException("Background Already Set!");
+    }
+
     public Custom setPlaceholder(@DrawableRes int resource) {
-        if (resource <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (resource == 0) {
+            throw new IllegalArgumentException("Resource ID Should Not Be Zero!");
         }
 
         this.mPlaceHolderResourceId = resource;
@@ -91,11 +105,11 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
 
     public Custom background(String uri) {
         if (mBackgroundResId > 0) {
-            throw new IllegalStateException("Background Already Set!");
+            throwBackgroundAlreadySetException();
         }
 
         if (mUri != null) {
-            throw new IllegalStateException("Background Already Set!");
+            throwBackgroundAlreadySetException();
         }
 
         if (uri == null) {
@@ -115,7 +129,7 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
 
     @Override
     public void build() {
-        if (!(Looper.getMainLooper().getThread() == Thread.currentThread())) {
+        if (Looper.getMainLooper().getThread() != Thread.currentThread()) {
             throw new IllegalStateException("Method call should happen from the main thread.");
         }
 

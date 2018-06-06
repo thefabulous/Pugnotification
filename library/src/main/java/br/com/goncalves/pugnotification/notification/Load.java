@@ -22,7 +22,6 @@ import br.com.goncalves.pugnotification.pendingintent.DismissPendingIntentActivi
 import br.com.goncalves.pugnotification.pendingintent.DismissPendingIntentBroadCast;
 
 public class Load {
-    private static final String TAG = "Pugnotification.Load";
     private NotificationCompat.Builder builder;
     private String title;
     private String message;
@@ -30,6 +29,7 @@ public class Load {
     private String tag;
     private int notificationId;
     private int smallIcon;
+    private boolean useSpanForCustomNotification;
 
     public Load() {
         builder = new NotificationCompat.Builder(PugNotification.singleton.context, PugNotification.singleton.channelId);
@@ -51,13 +51,17 @@ public class Load {
     }
 
     public Load title(@StringRes int title) {
-        if (title <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (title == 0) {
+            return throwResourceCannotBeZeroException();
         }
 
         this.title = PugNotification.singleton.context.getResources().getString(title);
         this.builder.setContentTitle(this.title);
         return this;
+    }
+
+    private Load throwResourceCannotBeZeroException() {
+        throw new IllegalArgumentException("Resource ID Should Not Be Equal To Zero!");
     }
 
     public Load title(String title) {
@@ -75,8 +79,8 @@ public class Load {
     }
 
     public Load message(@StringRes int message) {
-        if (message <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (message == 0) {
+            throwResourceCannotBeZeroException();
         }
 
         this.message = PugNotification.singleton.context.getResources().getString(message);
@@ -105,8 +109,8 @@ public class Load {
     }
 
     public Load color(@ColorRes int color) {
-        if (color <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (color == 0) {
+            throwResourceCannotBeZeroException();
         }
 
         Context context = PugNotification.singleton.context;
@@ -119,8 +123,8 @@ public class Load {
     }
 
     public Load ticker(@StringRes int ticker) {
-        if (ticker <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (ticker == 0) {
+            throwResourceCannotBeZeroException();
         }
 
         this.builder.setTicker(PugNotification.singleton.context.getResources().getString(ticker));
@@ -142,7 +146,7 @@ public class Load {
 
     public Load when(long when) {
         if (when <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+            throwResourceCannotBeZeroException();
         }
 
         this.builder.setWhen(when);
@@ -150,8 +154,8 @@ public class Load {
     }
 
     public Load bigTextStyle(@StringRes int bigTextStyle) {
-        if (bigTextStyle <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (bigTextStyle == 0) {
+            throwResourceCannotBeZeroException();
         }
 
         return bigTextStyle(PugNotification.singleton.context.getResources().getString(
@@ -159,8 +163,8 @@ public class Load {
     }
 
     public Load bigTextStyle(@StringRes int bigTextStyle, @StringRes int summaryText) {
-        if (bigTextStyle <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (bigTextStyle == 0) {
+            throwResourceCannotBeZeroException();
         }
 
         return bigTextStyle(PugNotification.singleton.context.getResources().getString(
@@ -226,6 +230,11 @@ public class Load {
         return this;
     }
 
+    public Load useSpanForCustomNotification(boolean useCustomSpan){
+        this.useSpanForCustomNotification = useCustomSpan;
+        return this;
+    }
+
     public Load autoCancel(boolean autoCancel) {
         this.builder.setAutoCancel(autoCancel);
         return this;
@@ -270,8 +279,8 @@ public class Load {
     }
 
     public Load largeIcon(@DrawableRes int largeIcon) {
-        if (largeIcon <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (largeIcon == 0) {
+            throwResourceCannotBeZeroException();
         }
 
         Bitmap bitmap = BitmapFactory.decodeResource(PugNotification.singleton.context.getResources(), largeIcon);
@@ -341,8 +350,8 @@ public class Load {
     }
 
     public Load button(@DrawableRes int icon, @StringRes int title, @NonNull PendingIntent pendingIntent) {
-        if (title <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (title == 0) {
+            throwResourceCannotBeZeroException();
         }
 
         return button(icon, PugNotification.singleton.context.getResources().getString(title), pendingIntent);
@@ -354,8 +363,8 @@ public class Load {
     }
 
     public Load button(@DrawableRes int icon, @StringRes int title, @NonNull PendingIntentNotification pendingIntentNotification) {
-        if (title <= 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Less Than Or Equal To Zero!");
+        if (title == 0) {
+            throwResourceCannotBeZeroException();
         }
 
         return button(icon, PugNotification.singleton.context.getResources().getString(title), pendingIntentNotification);
@@ -436,7 +445,7 @@ public class Load {
 
     public Custom custom() {
         notificationShallContainAtLeastThoseSmallIconValid();
-        return new Custom(builder, notificationId, title, message, messageSpanned, smallIcon, tag);
+        return new Custom(builder, notificationId, title, message, messageSpanned, smallIcon, tag, useSpanForCustomNotification);
     }
 
     public Simple simple() {
