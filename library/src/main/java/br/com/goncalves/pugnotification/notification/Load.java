@@ -20,6 +20,7 @@ import br.com.goncalves.pugnotification.pendingintent.ClickPendingIntentActivity
 import br.com.goncalves.pugnotification.pendingintent.ClickPendingIntentBroadCast;
 import br.com.goncalves.pugnotification.pendingintent.DismissPendingIntentActivity;
 import br.com.goncalves.pugnotification.pendingintent.DismissPendingIntentBroadCast;
+import br.com.goncalves.pugnotification.utils.ResourceUtils;
 
 public class Load {
     private NotificationCompat.Builder builder;
@@ -28,8 +29,8 @@ public class Load {
     private Spanned messageSpanned;
     private String tag;
     private int notificationId;
-    private int smallIcon;
-    private boolean useSpanForCustomNotification;
+    private @DrawableRes int smallIconId;
+    private boolean useSpanForCustomNotification = true;
 
     public Load() {
         builder = new NotificationCompat.Builder(PugNotification.singleton.context, PugNotification.singleton.channelId);
@@ -230,7 +231,7 @@ public class Load {
         return this;
     }
 
-    public Load useSpanForCustomNotification(boolean useCustomSpan){
+    public Load useSpanForCustomNotification(boolean useCustomSpan) {
         this.useSpanForCustomNotification = useCustomSpan;
         return this;
     }
@@ -245,9 +246,9 @@ public class Load {
         return this;
     }
 
-    public Load smallIcon(@DrawableRes int smallIcon) {
-        this.smallIcon = smallIcon;
-        this.builder.setSmallIcon(smallIcon);
+    public Load smallIcon(@DrawableRes int smallIconId) {
+        this.smallIconId = smallIconId;
+        this.builder.setSmallIcon(smallIconId);
         return this;
     }
 
@@ -445,7 +446,7 @@ public class Load {
 
     public Custom custom() {
         notificationShallContainAtLeastThoseSmallIconValid();
-        return new Custom(builder, notificationId, title, message, messageSpanned, smallIcon, tag, useSpanForCustomNotification);
+        return new Custom(builder, notificationId, title, message, messageSpanned, smallIconId, tag, useSpanForCustomNotification);
     }
 
     public Simple simple() {
@@ -464,7 +465,7 @@ public class Load {
     }
 
     private void notificationShallContainAtLeastThoseSmallIconValid() {
-        if (smallIcon <= 0) {
+        if (!ResourceUtils.isValid(smallIconId)) {
             throw new IllegalArgumentException("This is required. Notifications with an invalid icon resource will not be shown.");
         }
     }

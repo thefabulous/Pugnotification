@@ -11,38 +11,42 @@ import android.widget.RemoteViews;
 import br.com.goncalves.pugnotification.R;
 import br.com.goncalves.pugnotification.interfaces.ImageLoader;
 import br.com.goncalves.pugnotification.interfaces.OnImageLoadingCompleted;
+import br.com.goncalves.pugnotification.utils.ResourceUtils;
 
 @TargetApi(android.os.Build.VERSION_CODES.JELLY_BEAN)
 public class Custom extends Builder implements OnImageLoadingCompleted {
 
-    private RemoteViews mRemoteView;
-    private String mTitle;
-    private String mMessage;
-    private Spanned mMessageSpanned;
-    private String mUri;
-    private int mSmallIcon;
-    private int mBackgroundResId;
-    private int mPlaceHolderResourceId;
-    private ImageLoader mImageLoader;
-    private final boolean mUseSpanForCustomNotification;
+    private RemoteViews remoteViews;
+
+    private String title;
+    private String message;
+    private Spanned messageSpanned;
+    private String uri;
+    private @DrawableRes int smallIconId;
+    private @DrawableRes int backgroundResId;
+    private @DrawableRes int placeHolderResourceId;
+
+    private final boolean useSpanForCustomNotification;
+
+    private ImageLoader imageLoader;
 
     public Custom(NotificationCompat.Builder builder,
                   int identifier,
                   String title,
                   String message,
                   Spanned messageSpanned,
-                  int smallIcon,
+                  @DrawableRes int smallIconId,
                   String tag,
                   boolean useSpanForCustomNotification
     ) {
         super(builder, identifier, tag);
-        this.mUseSpanForCustomNotification = useSpanForCustomNotification;
-        this.mRemoteView = new RemoteViews(PugNotification.singleton.context.getPackageName(), R.layout.pugnotification_custom);
-        this.mTitle = title;
-        this.mMessage = message;
-        this.mMessageSpanned = messageSpanned;
-        this.mSmallIcon = smallIcon;
-        this.mPlaceHolderResourceId = R.drawable.pugnotification_ic_placeholder;
+        this.useSpanForCustomNotification = useSpanForCustomNotification;
+        this.remoteViews = new RemoteViews(PugNotification.singleton.context.getPackageName(), R.layout.pugnotification_custom);
+        this.title = title;
+        this.message = message;
+        this.messageSpanned = messageSpanned;
+        this.smallIconId = smallIconId;
+        this.placeHolderResourceId = R.drawable.pugnotification_ic_placeholder;
         this.init();
     }
 
@@ -53,35 +57,34 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
     }
 
     private void setTitle() {
-        mRemoteView.setTextViewText(R.id.notification_text_title, mTitle);
+        remoteViews.setTextViewText(R.id.notification_text_title, title);
     }
 
     private void setMessage() {
-        if (mMessageSpanned != null) {
-            CharSequence message = mUseSpanForCustomNotification ? this.mMessageSpanned : this.mMessageSpanned.toString();
-            mRemoteView.setTextViewText(R.id.notification_text_message, message);
+        if (messageSpanned != null) {
+            CharSequence targetMessage = useSpanForCustomNotification ? this.messageSpanned : this.messageSpanned.toString();
+            remoteViews.setTextViewText(R.id.notification_text_message, targetMessage);
         } else {
-            mRemoteView.setTextViewText(R.id.notification_text_message, mMessage);
+            remoteViews.setTextViewText(R.id.notification_text_message, message);
         }
     }
 
     private void setSmallIcon() {
-        if (mSmallIcon <= 0) {
-            mRemoteView.setImageViewResource(R.id.notification_img_icon, R.drawable.pugnotification_ic_launcher);
+        if (ResourceUtils.isValid(smallIconId)) {
+            remoteViews.setImageViewResource(R.id.notification_img_icon, smallIconId);
+        } else {
+            remoteViews.setImageViewResource(R.id.notification_img_icon, R.drawable.pugnotification_ic_launcher);
         }
-        mRemoteView.setImageViewResource(R.id.notification_img_icon, mSmallIcon);
     }
 
     public Custom background(@DrawableRes int resource) {
-        if (resource == 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Zero!");
-        }
+        ResourceUtils.assertResouceValid(resource);
 
-        if (mUri != null) {
+        if (uri != null) {
             throwBackgroundAlreadySetException();
         }
 
-        this.mBackgroundResId = resource;
+        this.backgroundResId = resource;
         return this;
     }
 
@@ -90,25 +93,24 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
     }
 
     public Custom setPlaceholder(@DrawableRes int resource) {
-        if (resource == 0) {
-            throw new IllegalArgumentException("Resource ID Should Not Be Zero!");
-        }
+        ResourceUtils.assertResouceValid(resource);
 
-        this.mPlaceHolderResourceId = resource;
+        this.placeHolderResourceId = resource;
         return this;
     }
 
     public Custom setImageLoader(ImageLoader imageLoader) {
-        this.mImageLoader = imageLoader;
+        this.imageLoader = imageLoader;
         return this;
     }
 
     public Custom background(String uri) {
-        if (mBackgroundResId > 0) {
+
+        if (ResourceUtils.isValid(backgroundResId)) {
             throwBackgroundAlreadySetException();
         }
 
-        if (mUri != null) {
+        if (this.uri != null) {
             throwBackgroundAlreadySetException();
         }
 
@@ -119,11 +121,11 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
             throw new IllegalArgumentException("Path Must Not Be Empty!");
         }
 
-        if (mImageLoader == null) {
+        if (imageLoader == null) {
             throw new IllegalStateException("You have to set an ImageLoader!");
         }
 
-        this.mUri = uri;
+        this.uri = uri;
         return this;
     }
 
@@ -134,16 +136,16 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
         }
 
         super.build();
-        setBigContentView(mRemoteView);
+        setBigContentView(remoteViews);
         loadImageBackground();
     }
 
     private void loadImageBackground() {
-        mRemoteView.setImageViewResource(R.id.notification_img_background, mPlaceHolderResourceId);
-        if (mUri != null) {
-            mImageLoader.load(mUri, this);
+        remoteViews.setImageViewResource(R.id.notification_img_background, placeHolderResourceId);
+        if (uri != null) {
+            imageLoader.load(uri, this);
         } else {
-            mImageLoader.load(mBackgroundResId, this);
+            imageLoader.load(backgroundResId, this);
         }
     }
 
@@ -152,7 +154,7 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
         if (bitmap == null) {
             throw new IllegalArgumentException("bitmap cannot be null");
         }
-        mRemoteView.setImageViewBitmap(R.id.notification_img_background, bitmap);
+        remoteViews.setImageViewBitmap(R.id.notification_img_background, bitmap);
         super.notificationNotify();
     }
 }
