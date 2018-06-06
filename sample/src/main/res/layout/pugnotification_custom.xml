@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notification_content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/notification_img_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="200dp"
+        android:contentDescription="@string/pugnotification_text_description_image_background"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:id="@+id/notification_content_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/notification_custom_gradient_overlay_negative"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/notification_custom_gradient_overlay"
+            android:background="@drawable/notification_text_background" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/notification_text_background"
+            android:padding="@dimen/pugnotification_dimension_default">
+
+            <TextView
+                android:id="@+id/notification_text_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/notification_img_icon"
+                android:layout_toStartOf="@+id/notification_img_icon"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/white_90pc"
+                android:textSize="@dimen/pugnotification_text_size_title"
+                tools:text="Sample notification title" />
+
+            <TextView
+                android:id="@+id/notification_text_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/notification_text_title"
+                android:layout_toLeftOf="@+id/notification_img_icon"
+                android:layout_toStartOf="@+id/notification_img_icon"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/white_90pc"
+                android:textSize="@dimen/pugnotification_text_size_subtitle"
+                tools:text="Sample notification text" />
+
+            <ImageView
+                android:id="@+id/notification_img_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/notification_custom_icon_padding"
+                android:background="@drawable/notification_small_icon_background"
+                android:contentDescription="@string/pugnotification_text_description_image_icon"
+                android:padding="@dimen/notification_custom_icon_circle_padding"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

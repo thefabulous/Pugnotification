@@ -3,12 +3,16 @@ package br.com.goncalves.pugnotification.sample;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -68,6 +72,44 @@ public class SamplePugNotification extends AppCompatActivity implements ImageLoa
 
         loadInfoComponents();
         loadListeners();
+        postTestNotification();
+    }
+
+    private void postTestNotification() {
+//        PugNotification.with(this, "")
+//                .load()
+//                .title(title)
+//                .message(message)
+//                .bigTextStyle(bigtext)
+//                .smallIcon(R.drawable.pugnotification_ic_launcher)
+//                .largeIcon(R.drawable.pugnotification_ic_launcher)
+//                .flags(Notification.DEFAULT_ALL)
+//                .color(android.R.color.background_dark)
+//                .custom()
+//                .background(url)
+//                .setImageLoader(Callback)
+//                .setPlaceholder(R.drawable.pugnotification_ic_placeholder)
+//                .build();
+
+        Load builder = PugNotification.with(this, CHANNEL_ID)
+                .load()
+                .identifier(1)
+                .tag("tag")
+                .title("Title")
+                .message(Html.fromHtml(getString(R.string.notification_new_letter_headline)
+                        .replace("{{NAME}}", "kmalmur")))
+                .smallIcon(R.drawable.ic_launch_ritual_white)
+                .largeIcon(R.drawable.pugnotification_ic_launcher)
+                .color(R.color.notification_color)
+                .autoCancel(true);
+
+        // Build Wear notification with read action
+
+        builder.useSpanForCustomNotification(false)
+                .custom()
+                .setImageLoader(this)
+                .background("https://placeimg.com/1120/2000/any")
+                .build();
     }
 
     private void createNotificationChannel() {
