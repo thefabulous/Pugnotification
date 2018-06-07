@@ -51,18 +51,12 @@ public class Load {
         return this;
     }
 
-    public Load title(@StringRes int title) {
-        if (title == 0) {
-            return throwResourceCannotBeZeroException();
-        }
+    public Load title(@StringRes int titleId) {
+        ResourceUtils.assertResouceValid(titleId);
 
-        this.title = PugNotification.singleton.context.getResources().getString(title);
+        this.title = PugNotification.singleton.context.getResources().getString(titleId);
         this.builder.setContentTitle(this.title);
         return this;
-    }
-
-    private Load throwResourceCannotBeZeroException() {
-        throw new IllegalArgumentException("Resource ID Should Not Be Equal To Zero!");
     }
 
     public Load title(String title) {
@@ -79,12 +73,10 @@ public class Load {
         return this;
     }
 
-    public Load message(@StringRes int message) {
-        if (message == 0) {
-            throwResourceCannotBeZeroException();
-        }
+    public Load message(@StringRes int messageId) {
+        ResourceUtils.assertResouceValid(messageId);
 
-        this.message = PugNotification.singleton.context.getResources().getString(message);
+        this.message = PugNotification.singleton.context.getResources().getString(messageId);
         this.builder.setContentText(this.message);
         return this;
     }
@@ -109,26 +101,22 @@ public class Load {
         return this;
     }
 
-    public Load color(@ColorRes int color) {
-        if (color == 0) {
-            throwResourceCannotBeZeroException();
-        }
+    public Load color(@ColorRes int colorId) {
+        ResourceUtils.assertResouceValid(colorId);
 
         Context context = PugNotification.singleton.context;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            this.builder.setColor(context.getColor(color));
+            this.builder.setColor(context.getColor(colorId));
         } else {
-            this.builder.setColor(context.getResources().getColor(color));
+            this.builder.setColor(context.getResources().getColor(colorId));
         }
         return this;
     }
 
-    public Load ticker(@StringRes int ticker) {
-        if (ticker == 0) {
-            throwResourceCannotBeZeroException();
-        }
+    public Load ticker(@StringRes int tickerId) {
+        ResourceUtils.assertResouceValid(tickerId);
 
-        this.builder.setTicker(PugNotification.singleton.context.getResources().getString(ticker));
+        this.builder.setTicker(PugNotification.singleton.context.getResources().getString(tickerId));
         return this;
     }
 
@@ -147,29 +135,25 @@ public class Load {
 
     public Load when(long when) {
         if (when <= 0) {
-            throwResourceCannotBeZeroException();
+            throw new IllegalArgumentException("Timestamp should be greater than 0");
         }
 
         this.builder.setWhen(when);
         return this;
     }
 
-    public Load bigTextStyle(@StringRes int bigTextStyle) {
-        if (bigTextStyle == 0) {
-            throwResourceCannotBeZeroException();
-        }
+    public Load bigTextStyle(@StringRes int bigTextStyleId) {
+        ResourceUtils.assertResouceValid(bigTextStyleId);
 
         return bigTextStyle(PugNotification.singleton.context.getResources().getString(
-                bigTextStyle), null);
+                bigTextStyleId), null);
     }
 
-    public Load bigTextStyle(@StringRes int bigTextStyle, @StringRes int summaryText) {
-        if (bigTextStyle == 0) {
-            throwResourceCannotBeZeroException();
-        }
+    public Load bigTextStyle(@StringRes int bigTextStyleId, @StringRes int summaryText) {
+        ResourceUtils.assertResouceValid(bigTextStyleId);
 
         return bigTextStyle(PugNotification.singleton.context.getResources().getString(
-                bigTextStyle), PugNotification.singleton.context.getResources().getString(
+                bigTextStyleId), PugNotification.singleton.context.getResources().getString(
                 summaryText));
     }
 
@@ -279,12 +263,10 @@ public class Load {
         return this;
     }
 
-    public Load largeIcon(@DrawableRes int largeIcon) {
-        if (largeIcon == 0) {
-            throwResourceCannotBeZeroException();
-        }
+    public Load largeIcon(@DrawableRes int largeIconId) {
+        ResourceUtils.assertResouceValid(largeIconId);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(PugNotification.singleton.context.getResources(), largeIcon);
+        Bitmap bitmap = BitmapFactory.decodeResource(PugNotification.singleton.context.getResources(), largeIconId);
         this.builder.setLargeIcon(bitmap);
         return this;
     }
@@ -350,12 +332,10 @@ public class Load {
         return this;
     }
 
-    public Load button(@DrawableRes int icon, @StringRes int title, @NonNull PendingIntent pendingIntent) {
-        if (title == 0) {
-            throwResourceCannotBeZeroException();
-        }
+    public Load button(@DrawableRes int iconId, @StringRes int titleId, @NonNull PendingIntent pendingIntent) {
+        ResourceUtils.assertResouceValid(iconId);
 
-        return button(icon, PugNotification.singleton.context.getResources().getString(title), pendingIntent);
+        return button(iconId, PugNotification.singleton.context.getResources().getString(titleId), pendingIntent);
     }
 
     public Load button(@DrawableRes int icon, @NonNull String title, @NonNull PendingIntent pendingIntent) {
@@ -363,12 +343,10 @@ public class Load {
         return this;
     }
 
-    public Load button(@DrawableRes int icon, @StringRes int title, @NonNull PendingIntentNotification pendingIntentNotification) {
-        if (title == 0) {
-            throwResourceCannotBeZeroException();
-        }
+    public Load button(@DrawableRes int icon, @StringRes int titleId, @NonNull PendingIntentNotification pendingIntentNotification) {
+        ResourceUtils.assertResouceValid(titleId);
 
-        return button(icon, PugNotification.singleton.context.getResources().getString(title), pendingIntentNotification);
+        return button(icon, PugNotification.singleton.context.getResources().getString(titleId), pendingIntentNotification);
     }
 
     public Load button(@DrawableRes int icon, @NonNull String title, @NonNull PendingIntentNotification pendingIntentNotification) {
