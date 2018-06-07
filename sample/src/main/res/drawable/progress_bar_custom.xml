@@ -1,0 +1,123 @@
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:maxLevel="1000">
+        <inset
+            android:insetBottom="1dp"
+            android:insetTop="1dp"
+            android:insetLeft="1dp"
+            android:insetRight="1dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+    <item android:maxLevel="2000">
+        <inset
+            android:insetBottom="2dp"
+            android:insetTop="2dp"
+            android:insetLeft="2dp"
+            android:insetRight="2dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+    <item android:maxLevel="3000">
+        <inset
+            android:insetBottom="3dp"
+            android:insetTop="3dp"
+            android:insetLeft="3dp"
+            android:insetRight="3dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+    <item android:maxLevel="4000">
+        <inset
+            android:insetBottom="4dp"
+            android:insetTop="4dp"
+            android:insetLeft="4dp"
+            android:insetRight="4dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+    <item android:maxLevel="5000">
+        <inset
+            android:insetBottom="5dp"
+            android:insetTop="5dp"
+            android:insetLeft="5dp"
+            android:insetRight="5dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+    <item android:maxLevel="6000">
+        <inset
+            android:insetBottom="6dp"
+            android:insetTop="6dp"
+            android:insetLeft="6dp"
+            android:insetRight="6dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+    <item android:maxLevel="7000">
+        <inset
+            android:insetBottom="5dp"
+            android:insetTop="5dp"
+            android:insetLeft="5dp"
+            android:insetRight="5dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+    <item android:maxLevel="8000">
+        <inset
+            android:insetBottom="4dp"
+            android:insetLeft="4dp"
+            android:insetRight="4dp"
+            android:insetTop="4dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+    <item android:maxLevel="9000">
+        <inset
+            android:insetBottom="3dp"
+            android:insetTop="3dp"
+            android:insetLeft="3dp"
+            android:insetRight="3dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+    <item android:maxLevel="10000">
+        <inset
+            android:insetBottom="2dp"
+            android:insetTop="2dp"
+            android:insetLeft="2dp"
+            android:insetRight="2dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/notification_icon_background" />
+            </shape>
+        </inset>
+    </item>
+
+    <!--<item android:maxLevel="10000">-->
+        <!--<scale-->
+            <!--android:scaleGravity="center"-->
+            <!--android:scaleHeight="100%"-->
+            <!--android:scaleWidth="100%">-->
+            <!--<shape android:shape="oval">-->
+                <!--<solid android:color="@color/notification_icon_background" />-->
+            <!--</shape>-->
+        <!--</scale>-->
+    <!--</item>-->
+</level-list>

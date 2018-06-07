@@ -59,6 +59,20 @@
                 android:textSize="@dimen/pugnotification_text_size_subtitle"
                 tools:text="Sample notification text" />
 
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:indeterminate="true"
+                android:indeterminateOnly="true"
+                android:layout_alignTop="@+id/notification_img_icon"
+                android:layout_alignLeft="@+id/notification_img_icon"
+                android:layout_alignRight="@+id/notification_img_icon"
+                android:layout_alignBottom="@+id/notification_img_icon"
+                style="?android:attr/progressBarStyleSmall"
+                android:indeterminateDrawable="@drawable/progress_bar_custom"/>
+
+            <!--android:background="@drawable/notification_small_icon_background"-->
             <ImageView
                 android:id="@+id/notification_img_icon"
                 android:layout_width="wrap_content"
@@ -67,7 +81,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_margin="@dimen/notification_custom_icon_padding"
-                android:background="@drawable/notification_small_icon_background"
+
                 android:contentDescription="@string/pugnotification_text_description_image_icon"
                 android:padding="@dimen/notification_custom_icon_circle_padding"/>
         </RelativeLayout>
