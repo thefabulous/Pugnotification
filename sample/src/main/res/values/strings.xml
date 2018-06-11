@@ -2,5 +2,4 @@
 <resources>
     <string name="pugnotification_text_type">Type</string>
     <string name="pugnotification_text_empty_fields">The fields can\'t be empty!</string>
-    <string name="notification_new_letter_headline">\n        &lt;p>&lt;font color=\"#898989\">&lt;b>@{{NAME}}&lt;/b>, tap here to read your new letter!&lt;/font>&lt;/p>\n</string>
 </resources>

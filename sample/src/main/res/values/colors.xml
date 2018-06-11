@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="notification_background_transparent">#001d6299</color>
-    <color name="notification_text_background">#1d6299</color>
-    <color name="notification_icon_background">#43729f</color>
-
-    <color name="white_90pc">#E5FFFFFF</color>
-</resources>

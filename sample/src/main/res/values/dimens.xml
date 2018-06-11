@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="notification_custom_icon_padding">8dp</dimen>
-    <dimen name="notification_custom_icon_circle_padding">8dp</dimen>
-    <dimen name="notification_custom_gradient_overlay">20dp</dimen>
-    <dimen name="notification_custom_gradient_overlay_negative">-20dp</dimen> <!--negative value of notification_custom_gradient_overlay-->
-</resources>
