@@ -86,14 +86,14 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
         }
     }
 
-    public Custom textBackground(@ColorInt int color, boolean castShadow) {
+    public Custom textBackground(@ColorInt int color, boolean showGradient) {
         remoteViews.setInt(R.id.notification_content_information, "setBackgroundColor", color);
 
-        if (castShadow) {
-            this.remoteViews.setViewVisibility(R.id.notification_img_bottom_shadow, View.VISIBLE);
-            this.remoteViews.setImageViewBitmap(R.id.notification_img_bottom_shadow, createShadowBitmap(color));
+        if (showGradient) {
+            this.remoteViews.setViewVisibility(R.id.notification_img_bottom_gradient, View.VISIBLE);
+            this.remoteViews.setImageViewBitmap(R.id.notification_img_bottom_gradient, createGradientBitmap(color));
         } else {
-            this.remoteViews.setViewVisibility(R.id.notification_img_bottom_shadow, View.GONE);
+            this.remoteViews.setViewVisibility(R.id.notification_img_bottom_gradient, View.GONE);
         }
 
         return this;
@@ -182,9 +182,9 @@ public class Custom extends Builder implements OnImageLoadingCompleted {
     }
 
     @NonNull
-    private Bitmap createShadowBitmap(@ColorInt int color) {
+    private Bitmap createGradientBitmap(@ColorInt int color) {
         int width = 1;      //width of the bitmap doesn't matter as it will be stretched by ImageView
-        int height = ((int) getResources().getDimension(R.dimen.pugnotification_shadow_height));
+        int height = ((int) getResources().getDimension(R.dimen.pugnotification_gradient_height));
 
         Shader shader = new LinearGradient(0, 0, 0, height, Color.TRANSPARENT, color, Shader.TileMode.CLAMP);
 

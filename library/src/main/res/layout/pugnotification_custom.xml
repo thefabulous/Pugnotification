@@ -20,9 +20,9 @@
         tools:layout_height="100dp" />
 
     <ImageView
-        android:id="@+id/notification_img_bottom_shadow"
+        android:id="@+id/notification_img_bottom_gradient"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/pugnotification_shadow_height"
+        android:layout_height="@dimen/pugnotification_gradient_height"
         android:layout_alignBottom="@id/notification_img_background"
         android:scaleType="fitXY" />
 
